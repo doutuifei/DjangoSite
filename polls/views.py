@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
-
+from django.utils import timezone
 from polls.models import Question, Choice
 
 
@@ -17,7 +17,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published questions."""
-        return Question.objects.order_by('id')[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('id')
 
 
 # def detail(request, question_id):
